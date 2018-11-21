@@ -60,7 +60,6 @@ const howManyTimes = (array, word) => {
 }
 
 // Bonus Quest
-
 const findRowGreatestProduct = (row) => {
   let greatestProduct = 0;
   for (let i = 0; i < row.length - 3; i++) {
