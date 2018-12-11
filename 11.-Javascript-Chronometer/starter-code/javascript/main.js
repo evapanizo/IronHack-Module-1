@@ -5,71 +5,83 @@ const minDec      = document.getElementById('minDec');
 const minUni      = document.getElementById('minUni');
 const secDec      = document.getElementById('secDec');
 const secUni      = document.getElementById('secUni');
-const milDec      = document.getElementById('milDec');
-const milUni      = document.getElementById('milUni');
+const tenDec      = document.getElementById('tenDec');
+const tenUni      = document.getElementById('tenUni');
 const splitsList  = document.getElementById('splits');
-let intervalId  = null;
+let intervalId    = null;
 
-function printTime() {
+function printTime () {
   intervalId = setInterval( () => {
-    printMinutes();
-    printSeconds();
-  }, 1000);
+    if(chronometer.currentTime === 6000000) {
+      setBtnStyle();
+      setStopBtn();
+    } else {
+      printMinutes();
+      printSeconds();
+      printTenthsOfSecond();
+    }
+  }, 10);
 }
 
-function printMinutes() {
+function printMinutes () {
   minDec.innerText = chronometer.minutes[0];
   minUni.innerText = chronometer.minutes[1];
 }
 
-function printSeconds() {
+function printSeconds () {
   secDec.innerText = chronometer.seconds[0];
   secUni.innerText = chronometer.seconds[1];
 }
 
-// function printMilliseconds() {
+function printTenthsOfSecond () {
+  tenDec.innerText = chronometer.tenthsOfSecond[0];
+  tenUni.innerText = chronometer.tenthsOfSecond[1];
+}
 
-// }
-
-function clearSplits() {
+function clearSplits () {
   splits.innerHTML = '';
 }
 
-function setStopBtn() {
+function setStopBtn () {
   btnLeft.innerText = 'START';
   btnRight.innerText = 'RESET';
   clearInterval(intervalId);
-  chronometer.stopClick();
   intervalId  = null;
+  chronometer.stopClick();
 }
 
-function setSplitBtn() {
+function setSplitBtn () {
   const newSplit = document.createElement('li');
   newSplit.innerText = chronometer.splitClick();
   splitsList.appendChild(newSplit);
 }
 
-function setStartBtn() {
+function setStartBtn () {
   btnLeft.innerText = 'STOP';
   btnRight.innerText = 'SPLIT';
   chronometer.startClick();
   printTime();
 }
 
-function setResetBtn() {
+function setResetBtn () {
   chronometer.resetClick();
   printMinutes();
   printSeconds();
+  printTenthsOfSecond();
   clearSplits();
+}
+
+function setBtnStyle () {
+  btnLeft.classList.toggle('start');
+  btnLeft.classList.toggle('stop');
+  btnRight.classList.toggle('reset');
+  btnRight.classList.toggle('split');
 }
 
 // Start/Stop Button
 btnLeft.addEventListener('click', function () {
   // CSS Styles
-  btnLeft.classList.toggle('start');
-  btnLeft.classList.toggle('stop');
-  btnRight.classList.toggle('reset');
-  btnRight.classList.toggle('split');
+  setBtnStyle();
   // TAG Text
   if(btnLeft.innerText === 'START') {
     setStartBtn();
