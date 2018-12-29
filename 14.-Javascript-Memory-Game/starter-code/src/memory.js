@@ -1,4 +1,4 @@
-var MemoryGame = function (cards) {
+const MemoryGame = function (cards) {
   this.cards = cards;
   this.pickedCards = [];
   this.pairsClicked = 0;
